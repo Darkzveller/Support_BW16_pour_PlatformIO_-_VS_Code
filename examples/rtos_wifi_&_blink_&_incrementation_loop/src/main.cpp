@@ -113,7 +113,7 @@ void setup()
         "wifi_ping",                // Nom
         2048,                       // Taille stack
         NULL,                       // Paramètre
-        tskIDLE_PRIORITY + 1,       // Priorité
+        tskIDLE_PRIORITY + 2,       // Priorité
         NULL                        // Handle
     );
 
@@ -123,7 +123,7 @@ void setup()
         "incrementation_loop",      // Nom
         1024,                       // Taille stack
         NULL,                       // Paramètre
-        tskIDLE_PRIORITY + 2,       // Priorité
+        tskIDLE_PRIORITY + 1,       // Priorité
         NULL                        // Handle
     );
 
