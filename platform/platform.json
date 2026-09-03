@@ -1,0 +1,38 @@
+{
+  "name": "realtek-amebad",
+  "title": "Realtek AmebaD",
+  "description": "Community PlatformIO support for the Realtek RTL8720DN and the Ai-Thinker BW16 board",
+  "homepage": "https://github.com/Ameba-AIoT/ameba-arduino-d",
+  "license": "Apache-2.0",
+  "keywords": [
+    "realtek",
+    "amebad",
+    "rtl8720dn",
+    "bw16",
+    "arduino",
+    "wifi",
+    "bluetooth"
+  ],
+  "version": "0.2.0",
+  "frameworks": {
+    "arduino": {
+      "package": "framework-arduinorealtek-amebad",
+      "script": "builder/frameworks/arduino.py"
+    }
+  },
+  "packages": {
+    "framework-arduinorealtek-amebad": {
+      "type": "framework",
+      "optional": true,
+      "version": "3.1.9"
+    },
+    "toolchain-realtek-amebad": {
+      "type": "toolchain",
+      "version": "1.0.1"
+    },
+    "tool-realtek-amebad": {
+      "type": "uploader",
+      "version": "1.1.3"
+    }
+  }
+}

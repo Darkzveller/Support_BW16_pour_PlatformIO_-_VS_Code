@@ -4,7 +4,7 @@ Support communautaire de la carte **Ai-Thinker BW16** basée sur le **Realtek RT
 
 Ce projet permet de sélectionner `bw16`, compiler du code Arduino, générer l'image Realtek `km0_km4_image2.bin`, téléverser le firmware par USB-série et utiliser le moniteur série depuis PlatformIO.
 
-> État actuel : la compilation de Blink et du scan Wi-Fi a été validée avec PlatformIO 6.1.19 et le cœur Arduino AmebaD 3.1.9. Le téléversement utilise l'outil officiel Realtek, mais doit encore être confirmé sur une carte physique BW16.
+> Version 0.2.0 pour Windows : la compilation de Blink et du scan Wi-Fi a été validée avec PlatformIO 6.1.19 et le cœur Arduino AmebaD 3.1.9. Le téléversement utilise l'outil officiel Realtek, mais doit encore être confirmé sur une carte physique BW16.
 
 ## Fonctionnalités
 
@@ -17,7 +17,7 @@ Ce projet permet de sélectionner `bw16`, compiler du code Arduino, générer l'
 - Génération automatique du firmware Realtek
 - Upload USB-série à 1 500 000 ou 921 600 bauds
 - Moniteur série PlatformIO
-- Installation Windows, Linux et macOS
+- Paquet Windows autonome, sans téléchargement de dépendances ni `bzip2`
 
 ## Installation sous Windows
 
@@ -25,35 +25,30 @@ Ce projet permet de sélectionner `bw16`, compiler du code Arduino, générer l'
 
 - Visual Studio Code
 - Extension PlatformIO IDE
-- Une connexion Internet pour télécharger le cœur et les outils officiels Realtek
 - Le pilote du convertisseur USB-série de la carte, souvent CH340 ou CP210x
 
-### 2. Installer le support BW16
+### 2. Ouvrir et compiler
 
-Décompresse ce dépôt, ouvre PowerShell dans son dossier puis exécute :
+1. Décompresse entièrement `BW16-PlatformIO-v0.2.0-Windows.zip`.
+2. Dans VS Code, sélectionne **File > Open Folder** et ouvre le dossier `BW16-PlatformIO` extrait.
+3. Clique sur **PlatformIO: Build**.
 
-```powershell
-Set-ExecutionPolicy -Scope Process Bypass
-.\install.ps1
-```
-
-L'installateur vérifie les sommes SHA-256 avant d'installer :
+PlatformIO installe automatiquement depuis le dossier `vendor` :
 
 - Arduino AmebaD `3.1.9`
 - Realtek ASDK toolchain `1.0.1`
 - Realtek upload tools `1.1.3`
+- SCons `4.8.1`, utilisé par PlatformIO pour compiler
 
-Redémarre ensuite VS Code pour que PlatformIO recharge la liste des cartes.
+Il n'est plus nécessaire de lancer un script PowerShell, de changer la stratégie d'exécution ou d'installer `bzip2`. `INSTALLER_BW16.bat` reste disponible uniquement pour réparer une ancienne installation globale incomplète.
 
 ## Premier test
 
-1. Dans VS Code, sélectionne **File > Open Folder**.
-2. Ouvre le dossier principal `BW16-PlatformIO`.
-3. Branche le BW16 avec un câble Micro USB capable de transmettre des données.
-4. Clique sur **PlatformIO: Build**.
-5. Mets la carte en mode téléchargement.
-6. Clique sur **PlatformIO: Upload**.
-7. Ouvre **PlatformIO: Serial Monitor** à 115200 bauds.
+1. Branche le BW16 avec un câble Micro USB capable de transmettre des données.
+2. Clique sur **PlatformIO: Build**.
+3. Mets la carte en mode téléchargement.
+4. Clique sur **PlatformIO: Upload**.
+5. Ouvre **PlatformIO: Serial Monitor** à 115200 bauds.
 
 Le programme présent dans `src/main.cpp` doit faire clignoter la LED bleue et afficher :
 
@@ -82,10 +77,15 @@ Configuration minimale :
 
 ```ini
 [env:bw16]
-platform = realtek-amebad
+platform = file://platform
 board = bw16
 framework = arduino
 monitor_speed = 115200
+platform_packages =
+    framework-arduinorealtek-amebad @ file://vendor/framework-arduinorealtek-amebad-3.1.9-bundle.tar.gz
+    toolchain-realtek-amebad @ file://vendor/toolchain-realtek-amebad-windows-1.0.1-bundle.tar.gz
+    tool-realtek-amebad @ file://vendor/tool-realtek-amebad-windows-1.1.3-bundle.tar.gz
+    platformio/tool-scons @ file://vendor/tool-scons-4.40801.0-bundle.tar.gz
 ```
 
 Si PlatformIO choisit le mauvais port :
@@ -169,9 +169,11 @@ La carte n'est pas en mode téléchargement. Recommence la séquence BURN/RESET 
 
 Vérifie le gestionnaire de périphériques, le pilote USB-série et utilise un câble de données plutôt qu'un câble de recharge uniquement.
 
-### Réinstaller proprement
+### Erreur `bzip2 -d`
 
-Relance simplement `install.ps1`. Il remplace uniquement les trois paquets BW16 et la plateforme `realtek-amebad` installés par ce projet.
+Cette erreur provenait de l'ancien installateur et du support `.tar.bz2` manquant dans certains Windows. Utilise la version 0.2.0 : la chaîne de compilation est désormais fournie en `.tar.gz` et installée automatiquement pendant le premier Build.
+
+Si une installation incomplète subsiste, ferme VS Code, double-clique sur `INSTALLER_BW16.bat`, puis relance **Build**.
 
 ## Sources techniques
 

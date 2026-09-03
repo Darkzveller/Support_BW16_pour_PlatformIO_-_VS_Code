@@ -1,0 +1,36 @@
+{
+  "build": {
+    "core": "ambd",
+    "cpu": "cortex-m33",
+    "extra_flags": "-DARDUINO_SDK -DARDUINO_AMBD -DCORE_RTL8720DN -DBOARD_AITHINKER_BW16 -DArduino_STD_PRINTF",
+    "f_cpu": "200000000L",
+    "ldscript": "amebad_img2_is_arduino_std.ld",
+    "mcu": "RTL8720DN",
+    "variant": "rtl8720dn_bw16"
+  },
+  "connectivity": [
+    "bluetooth",
+    "wifi"
+  ],
+  "debug": {
+    "svd_path": "RTL8720DN.svd"
+  },
+  "frameworks": [
+    "arduino"
+  ],
+  "name": "Ai-Thinker BW16 (RTL8720DN)",
+  "upload": {
+    "auto_mode": "Disable",
+    "erase_flash": "Disable",
+    "maximum_ram_size": 524288,
+    "maximum_size": 2097152,
+    "protocol": "usb_serial",
+    "protocols": [
+      "usb_serial"
+    ],
+    "require_upload_port": true,
+    "speed": 1500000
+  },
+  "url": "https://www.amebaiot.com/en/amebad-bw16-arduino-getting-started/",
+  "vendor": "Ai-Thinker"
+}

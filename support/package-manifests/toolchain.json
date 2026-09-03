@@ -1,0 +1,5 @@
+{
+  "name": "toolchain-realtek-amebad",
+  "version": "1.0.1",
+  "description": "Official Realtek AmebaD ASDK ARM toolchain"
+}

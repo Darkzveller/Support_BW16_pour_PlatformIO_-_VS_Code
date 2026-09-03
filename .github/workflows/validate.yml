@@ -1,0 +1,20 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  manifests-and-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate manifests
+        run: python tests/validate.py
+      - name: Validate Python syntax
+        run: python -m py_compile platform/platform.py platform/builder/main.py platform/builder/frameworks/arduino.py
+      - name: Validate shell installer syntax
+        run: sh -n install.sh
